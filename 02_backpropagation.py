@@ -64,7 +64,7 @@ def run_hand_calculated_network():
     prediction, h = forward(param_cache['x'], param_cache['w1'], param_cache['w2'])
     g_w2, g_w1 = backward(param_cache, prediction, h)
     expected_w1, expected_w2 = -96.0, -72.0
-    print(f"forward: h = {h}, prediction = {prediction}, loss = {(prediction-param_cache['y']**2)}")
+    print(f"forward: h = {h}, prediction = {prediction}, loss = {((prediction-param_cache['y'])**2)}")
     print(f"gradient due to w1: {g_w1} .")
     print(f"gradient due to w2: {g_w2} .")
     assert np.isclose(expected_w1, g_w1), "w1 gradient does not match the derivation"
