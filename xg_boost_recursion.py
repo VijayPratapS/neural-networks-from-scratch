@@ -141,6 +141,14 @@ class XgBoostRecursion:
             print(self.p)
             self.tree.append(tree)
 
+    def _predict_probability_and_give_class(self, x_new):
+        self.compute_initial_z(x_new)
+        z = self.initial_z
+        for tree in self.tree:
+            correction = tree._predict(x_new)
+            z+=self.lr*np.array(correction)
+        return [1 if p>=0.5 else 0 for p in sigmoid(z)]
+
 
 
 
@@ -168,6 +176,10 @@ y = np.array([
 
 gradient_boosting = XgBoostRecursion(5, 3, 0.1)
 gradient_boosting._fit(X, y)
+classes = gradient_boosting._predict_probability_and_give_class(np.array([
+    [38, 55, 680]
+], dtype=float))
+print(f'class prediction one new data : {classes}')
 
 
 
